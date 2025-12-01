@@ -39,7 +39,7 @@ async function apiFetch(path, options = {}) {
     // ignore console issues
   }
 
-  const res = await fetch(`${base}${path}`, { ...options, headers })
+  const res = await fetch(`${base}${path}`, { ...options, headers, credentials: options.credentials ?? 'same-origin' })
   return res
 }
 

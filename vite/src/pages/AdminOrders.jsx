@@ -65,23 +65,39 @@ export default function AdminOrders(){
     setOrders(prev => prev.map(o => o.id===id ? { ...o, ...patch } : o))
   }
   const handleAceptar = async (id) => {
-    try{ setError(''); setActingId(id); await api.post(`/api/ventas/${id}/aceptar`,{}); updateOrder(id,{estadoPago:'aceptado',estadoEnvio:'preparando'}) }
-    catch(err){ setError(`No se pudo aceptar (HTTP ${err.status??'?'})`) }
+    try{
+      setError(''); setActingId(id)
+      const res = await api.fetch(`/api/ventas/${id}/aceptar`, { method: 'POST', body: JSON.stringify({}) })
+      if(!res.ok){ const txt = await res.text().catch(()=>'' ); setError(`No se pudo aceptar (HTTP ${res.status}) ${txt||''}`); return }
+      updateOrder(id,{estadoPago:'aceptado',estadoEnvio:'preparando'})
+    }catch(err){ setError(err?.message || `No se pudo aceptar (HTTP ${err.status??'?'})`) }
     finally{ setActingId(null) }
   }
   const handleRechazar = async (id) => {
-    try{ setError(''); setActingId(id); await api.post(`/api/ventas/${id}/rechazar`,{}); updateOrder(id,{estadoPago:'rechazado',estadoEnvio:'rechazado'}) }
-    catch(err){ setError(`No se pudo rechazar (HTTP ${err.status??'?'})`) }
+    try{
+      setError(''); setActingId(id)
+      const res = await api.fetch(`/api/ventas/${id}/rechazar`, { method: 'POST', body: JSON.stringify({}) })
+      if(!res.ok){ const txt = await res.text().catch(()=>'' ); setError(`No se pudo rechazar (HTTP ${res.status}) ${txt||''}`); return }
+      updateOrder(id,{estadoPago:'rechazado',estadoEnvio:'rechazado'})
+    }catch(err){ setError(err?.message || `No se pudo rechazar (HTTP ${err.status??'?'})`) }
     finally{ setActingId(null) }
   }
   const handleDespachado = async (id) => {
-    try{ setError(''); setActingId(id); await api.post(`/api/ventas/${id}/despachado`,{}); updateOrder(id,{estadoEnvio:'despachado'}) }
-    catch(err){ setError(`No se pudo marcar despachado (HTTP ${err.status??'?'})`) }
+    try{
+      setError(''); setActingId(id)
+      const res = await api.fetch(`/api/ventas/${id}/despachado`, { method: 'POST', body: JSON.stringify({}) })
+      if(!res.ok){ const txt = await res.text().catch(()=>'' ); setError(`No se pudo marcar despachado (HTTP ${res.status}) ${txt||''}`); return }
+      updateOrder(id,{estadoEnvio:'despachado'})
+    }catch(err){ setError(err?.message || `No se pudo marcar despachado (HTTP ${err.status??'?'})`) }
     finally{ setActingId(null) }
   }
   const handleEntregado = async (id) => {
-    try{ setError(''); setActingId(id); await api.post(`/api/ventas/${id}/entregado`,{}); updateOrder(id,{estadoEnvio:'entregado'}) }
-    catch(err){ setError(`No se pudo marcar entregado (HTTP ${err.status??'?'})`) }
+    try{
+      setError(''); setActingId(id)
+      const res = await api.fetch(`/api/ventas/${id}/entregado`, { method: 'POST', body: JSON.stringify({}) })
+      if(!res.ok){ const txt = await res.text().catch(()=>'' ); setError(`No se pudo marcar entregado (HTTP ${res.status}) ${txt||''}`); return }
+      updateOrder(id,{estadoEnvio:'entregado'})
+    }catch(err){ setError(err?.message || `No se pudo marcar entregado (HTTP ${err.status??'?'})`) }
     finally{ setActingId(null) }
   }
   const handleEliminar = async (id) => {
