@@ -1,0 +1,21 @@
+.detalle_prod { text-align: left; }
+.detalle_prod p { margin-left: 20px; }
+.header_detalle_producto { background: linear-gradient(9000deg, #03468ee5, #03468e); color: #fff; padding: 1rem 0; text-align: center; }
+.contenedor__general_prod { background: #fff; border-radius: 10px; padding: 2rem; margin-top: 2rem; box-shadow: 0px 4px 12px rgba(0,0,0,0.1); text-align: center; }
+.contenedor__general_prod img { width: 100%; max-width: 320px; height: auto; border-radius: 10px; margin-bottom: 1rem; }
+.contenedor__general_prod h1 { font-size: 2rem; font-weight: bold; margin-bottom: 1rem; color: #212529; }
+.contenedor__general_prod p { font-size: 1.1rem; margin: 0.5rem 0; }
+.contenedor__general_prod strong { color: #0e3369; }
+a.btn-volver { margin-top: 2rem; display: inline-block; }
+.footer_prod { margin-top: 3rem; background-color: #f1f1f1; }
+.logo-ocilak { height: 28px; width: 28px; object-fit: contain; border-radius: 6px; }
+#col__izq { background-image: url('/img/bg-ocilak-left.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh; background-color: #ffffff; }
+#img__logo { max-width: 200px; box-shadow: 0 6px 18px rgba(0,0,0,0.18); border-radius: 12px; }
+#container__login { max-width: 480px; }
+.left_bar { background-color: #eef2f7; }
+.left_bar .nav-link { color: #2e3033; padding: 6px 0; }
+.left_bar .nav-link.fw-bold { color: #000000; }
+.content { background-color: #ffffff; }
+#contenedor__general__home { min-height: 60vh; }
+.caja-scroll { height: 36px; border-radius: 8px; background-color: rgba(0,0,0,0.04); }
+

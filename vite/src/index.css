@@ -1,0 +1,304 @@
+/* Estilos proporcionados */
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+}
+
+.foto {
+  max-width: 100px;
+  height: auto;
+  object-fit: cover;
+}
+
+.foto:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .foto {
+    max-width: 50px;
+  }
+
+  #tabla_productos th,
+  #tabla_productos td {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .foto {
+    max-width: 40px;
+  }
+
+  #tabla_productos th,
+  #tabla_productos td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  #contenedor__izquierdo__home {
+    max-height: 100px;
+    overflow-y: auto;
+  }
+}
+
+.h_titulos {
+  text-shadow: 2px 1px rgba(0, 0, 0, 0.212);
+}
+
+/* PRODUCTO DETALLES */
+.detalle_prod {
+  text-align: left;
+}
+
+.detalle_prod p {
+  margin-left: 20px;
+}
+
+.header_detalle_producto {
+  background: linear-gradient(9000deg, #03468ee5, #03468e);
+  color: #fff;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.contenedor__general_prod {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.contenedor__general_prod img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.contenedor__general_prod h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.contenedor__general_prod p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.contenedor__general_prod strong {
+  color: #0e3369;
+}
+
+a.btn-volver {
+  margin-top: 2rem;
+  display: inline-block;
+}
+
+.footer_prod {
+  margin-top: 3rem;
+  background-color: #f1f1f1;
+}
+
+/* PRODUCTOS */
+#tabla_productos th {
+  background-color: #03468e27;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+td,
+th {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Contenedor de paginación */
+#pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* Botones */
+.page-btn {
+  padding: 8px 14px;
+  border: 1px solid #03468e27;
+  background: #fff;
+  color: #03468e;
+}
+
+/* Ajuste para el body del layout Bootstrap */
+body {
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* ===== Branding OCILAK ===== */
+.bg-ocilak {
+  background-color: #F68B3E !important; /* Naranja OCILAK oficial */
+}
+
+.btn-ocilak {
+  background-color: #F68B3E;
+  border-color: #F68B3E;
+  color: #FFFFFF;
+}
+.btn-ocilak:hover,
+.btn-ocilak:focus {
+  filter: brightness(0.95);
+  color: #FFFFFF;
+}
+
+.navbar.bg-ocilak .navbar-brand,
+.navbar.bg-ocilak .nav-link {
+  color: #FFFFFF;
+}
+.navbar.bg-ocilak .nav-link:hover {
+  color: #FFFFFF;
+  opacity: 0.85;
+}
+
+/* ===== Paleta YOUKA ===== */
+.bg-youka {
+  background-color: #C1D59E !important; /* Verde claro */
+}
+.text-youka {
+  color: #779B48 !important; /* Verde oliva */
+}
+.youka-accent {
+  color: #734F33 !important; /* Marrón */
+}
+.youka-ribbon {
+  background-color: #734F33;
+  color: #FFFFFF;
+}
+.btn-youka {
+  background-color: #779B48;
+  border-color: #779B48;
+  color: #FFFFFF;
+}
+.btn-youka:hover {
+  filter: brightness(0.95);
+  color: #FFFFFF;
+}
+/* ===== OCILAK Logo in Navbar ===== */
+.logo-ocilak {
+  height: 28px;
+  width: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+/* ===== Consultoría JCA2 ===== */
+.bg-jca2-dark {
+  background-color: #2A4880;
+  color: #FFFFFF;
+}
+.jca2-gradient {
+  background: linear-gradient(90deg, #2A4880 0%, #8A3D8A 33%, #E04B2C 66%, #F6C83E 100%);
+}
+.text-jca2-black { color: #000000; }
+.badge-jca2 { background-color: #2A4880; color: #FFFFFF; }
+
+/* ===== Generación de Negocios (Castell) ===== */
+.bg-castell {
+  background-color: #F8F7F2; /* Blanco roto/crema */
+}
+.text-castell-black { color: #000000; }
+.castell-accent { border-left: 4px solid #F68B3E; padding-left: 12px; }
+
+/* ===== Fondo izquierdo del login ===== */
+#col__izq {
+  background-image: url('/img/bg-ocilak-left.png'); /* coloca aquí la imagen enviada */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; /* asegura altura completa */
+  background-color: #ffffff; /* fallback si no existe la imagen */
+}
+
+#img__logo {
+  max-width: 150px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+}
+
+/* Limita el ancho del contenedor del formulario cuando está centrado */
+#container__login {
+  max-width: 480px;
+}
+
+/* ===== Admin Home ===== */
+.left_bar {
+  background-color: #eef2f7; /* tono claro similar a la referencia */
+}
+.left_bar .nav-link {
+  color: #2e3033;
+  padding: 6px 0;
+}
+.left_bar .nav-link.fw-bold {
+  color: #000000;
+}
+
+.content {
+  background-color: #ffffff;
+}
+
+#contenedor__general__home {
+  min-height: 60vh;
+}
+.caja-scroll {
+  height: 36px;
+  border-radius: 8px;
+  background-color: rgba(0,0,0,0.04);
+}
+
+.img-uniform {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.img-carousel-uniform {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+@media (max-width: 576px) {
+  .img-uniform { height: 160px; }
+  .img-carousel-uniform { height: 200px; }
+}
+
+.btn-youka-outline {
+  background-color: #FFFFFF;
+  border: 1px solid #779B48;
+  color: #779B48;
+}
+.btn-youka-outline:hover,
+.btn-youka-outline:focus {
+  background-color: #779B48;
+  color: #FFFFFF;
+}
+
+.app-bg-youka {
+  background:
+    radial-gradient(#e3f0cf 1px, transparent 1px),
+    radial-gradient(#e3f0cf 1px, transparent 1px),
+    linear-gradient(#f9fcf4, #f9fcf4);
+  background-position: 0 0, 15px 15px, 0 0;
+  background-size: 30px 30px, 30px 30px, auto;
+}
