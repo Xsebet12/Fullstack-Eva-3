@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Home(){
+  const [showZonas,setShowZonas]=useState(false)
+  const [showCondiciones,setShowCondiciones]=useState(false)
   return (
     <main className="container py-5" style={{marginTop:70}}>
       <section className="p-5 mb-4 bg-youka rounded">
@@ -83,7 +85,7 @@ export default function Home(){
             <img loading="lazy" src="https://thumbs.dreamstime.com/b/salm%C3%B3n-y-pescado-en-bruto-con-marisco-congelado-un-fondo-blanco-se-han-dispuesto-de-forma-art%C3%ADstica-diversos-alimentos-frescos-393188346.jpg" alt="Caja de despacho" className="card-img-top rounded img-uniform" />
             <h5 className="card-title mt-3">2. Agenda tu Despacho</h5>
             <p className="card-text">Selecciona la fecha y hora que más te acomode para recibir tu pedido.</p>
-            <a href="#" className="btn btn-youka mt-auto">Zonas de despacho</a>
+            <button type="button" className="btn btn-youka mt-auto" onClick={()=>{ setShowZonas(true); setShowCondiciones(false) }}>Zonas de despacho</button>
           </div>
         </div>
         <div className="col-md-4">
@@ -91,10 +93,43 @@ export default function Home(){
             <img loading="lazy" src="https://tse3.mm.bing.net/th/id/OIP.yNa0-wbeUDi57Ok0Df1yAgHaFj?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Mesa con platos" className="card-img-top rounded img-uniform" />
             <h5 className="card-title mt-3">3. Recibe y Disfruta</h5>
             <p className="card-text">Recibe tus productos manteniendo la cadena de frío y disfruta de su calidad.</p>
-            <a href="#" className="btn btn-youka mt-auto">Condiciones</a>
+            <button type="button" className="btn btn-youka mt-auto" onClick={()=>{ setShowCondiciones(true); setShowZonas(false) }}>Condiciones</button>
           </div>
         </div>
       </div>
+      {(showZonas||showCondiciones) && (
+        <div className="mb-4">
+          <div className="card shadow-sm">
+            <div className="card-body">
+              {showZonas && (
+                <div>
+                  <h5 className="card-title">Zonas de despacho</h5>
+                  <p className="card-text">Despachamos en comunas seleccionadas dentro de la Región Metropolitana. Elige tu comuna al registrarte para confirmar cobertura y tiempos de entrega.</p>
+                  <ul>
+                    <li>Despachos de lunes a sábado</li>
+                    <li>Ventanas horarias: mañana y tarde</li>
+                    <li>Tarifa según distancia y tamaño del pedido</li>
+                  </ul>
+                </div>
+              )}
+              {showCondiciones && (
+                <div>
+                  <h5 className="card-title">Condiciones</h5>
+                  <p className="card-text">Mantenemos cadena de frío asegurada. Los productos se entregan sellados y con guía. Cambios y devoluciones aplican a productos con fallas dentro de 24h.</p>
+                  <ul>
+                    <li>Medios de pago: tarjeta, transferencia y efectivo contra entrega</li>
+                    <li>Cancelaciones hasta 2h antes del despacho</li>
+                    <li>Garantía de satisfacción en productos congelados</li>
+                  </ul>
+                </div>
+              )}
+              <div className="text-end">
+                <button className="btn btn-outline-secondary btn-sm" onClick={()=>{ setShowZonas(false); setShowCondiciones(false) }}>Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <section className="mb-5">
         <h2 className="mb-3">Destacados</h2>

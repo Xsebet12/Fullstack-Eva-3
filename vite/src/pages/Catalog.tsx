@@ -41,11 +41,7 @@ export default function Catalog(){
                       alert(String(e?.message||'No se pudo agregar'))
                     }
                   }}>Agregar al carrito</button>
-                  <button className="btn btn-primary mt-2" onClick={async()=>{
-                    const tok = getAuthToken(); if(!tok){ alert('Debes iniciar sesión para comprar'); return }
-                    try{ addPendingItem(p.id,1); const r = await processPendingCheckout(); alert(`Compra registrada: ${r?.id??''}`) }
-                    catch(e:any){ alert(String(e?.message||'No se pudo completar la compra')) }
-                  }}>Comprar ahora</button>
+                  
                 </div>
               </div>
             </div>

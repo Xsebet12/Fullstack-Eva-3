@@ -28,10 +28,10 @@ export default function Register(){
     if(contrasena!==confirmar){ errores.textContent='Las contraseñas no coinciden'; return }
     // Validación previa de dominio de correo para evitar 400 del backend
     if(!/^[A-Za-z0-9._%+-]+@(gmail\.com|duocuc\.cl)$/.test(correo)){ errores.textContent='El correo debe ser @gmail.com o @duocuc.cl'; return }
-    if(telefono && !/^[\d\s()+-]{7,15}$/.test(telefono)){ errores.textContent='Teléfono con formato inválido'; return }
+    const normalized=telefono.replace(/\s+/g,'')
+    if(!/^\+\d{8,15}$/.test(normalized)){ errores.textContent='Teléfono requerido en formato internacional (+51 987654321)'; return }
     try{
-      const body:any={nombres,apellidos,rut,dv,correo,contrasena,direccion,comunaId:Number(comunaSel)}
-      if(telefono) body.telefono = telefono
+      const body:any={nombres,apellidos,rut,dv,correo,contrasena,direccion,comunaId:Number(comunaSel),telefono}
       const resp=await register(body)
       if(!resp||!resp.id){ errores.textContent='Error al registrar'; return }
       window.location.href='/login'
@@ -50,7 +50,7 @@ export default function Register(){
           <div className="col-md-8"><label className="form-label">RUT (sin DV)</label><input id="rut" className="form-control" required /></div>
           <div className="col-md-4"><label className="form-label">DV</label><input id="dv" className="form-control" required /></div>
           <div className="col-md-8"><label className="form-label">Correo</label><input type="email" id="correo" className="form-control" required /></div>
-          <div className="col-md-4"><label className="form-label">Teléfono (opcional)</label><input id="telefono" className="form-control" /></div>
+          <div className="col-md-4"><label className="form-label">Teléfono</label><input id="telefono" className="form-control" required placeholder="+51 987654321" /></div>
           <div className="col-md-6"><label className="form-label">Contraseña</label><input type="password" id="contrasena" className="form-control" required /></div>
           <div className="col-md-6"><label className="form-label">Confirmar Contraseña</label><input type="password" id="confirmar" className="form-control" required /></div>
           <div className="col-md-12"><label className="form-label">Dirección</label><input id="direccion" className="form-control" required /></div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { addToCart, getProductos, addPendingItem, processPendingCheckout, authHeaders } from '../api/client'
+import { addToCart, getProductos, addPendingItem, authHeaders } from '../api/client'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { getAuthToken } from '../api/client'
 
@@ -14,11 +14,14 @@ type Producto={
   disponible?:boolean;
   imagen?:string;
   imagenes?:Imagen[]
+  categoria?: { id:number; nombre?:string }
 }
 type MiniItem={productoId:number; nombre:string; cantidad:number}
 
 export default function Catalog(){
   const [items,setItems]=useState<Producto[]>([])
+  const [categorias,setCategorias]=useState<{id:number; nombre:string}[]>([])
+  const [categoriaId,setCategoriaId]=useState<string>('')
   const [mini,setMini]=useState<MiniItem[]>([])
   const [miniTotal,setMiniTotal]=useState<number>(0)
   const [notice,setNotice]=useState<string>('')
@@ -35,6 +38,14 @@ export default function Catalog(){
     }
     load(); return ()=>{ignore=true}
   },[q])
+  useEffect(()=>{
+    let ignore=false
+    const loadCats=async()=>{
+      try{ const r=await fetch('/api/categorias'); const j=await r.json(); if(!ignore) setCategorias(Array.isArray(j)?j:[]) }
+      catch{}
+    }
+    loadCats(); return ()=>{ignore=true}
+  },[])
   useEffect(()=>{ loadMini() },[])
   useEffect(() => {
     const reduce = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -114,6 +125,13 @@ export default function Catalog(){
           <span className="badge bg-youka text-dark">{miniCount} items</span>
         </div>
       </div>
+      <div className="mb-3 d-flex gap-2 align-items-center">
+        <label className="form-label m-0">Categoría</label>
+        <select className="form-select" style={{maxWidth:260}} value={categoriaId} onChange={e=>setCategoriaId(e.target.value)}>
+          <option value="">Todas</option>
+          {categorias.map(c=> (<option key={c.id} value={c.id}>{c.nombre}</option>))}
+        </select>
+      </div>
       {/* Notificación discreta */}
       {notice && (
         <div className="position-fixed" style={{right:16,bottom:16,zIndex:1050}}>
@@ -174,7 +192,8 @@ export default function Catalog(){
             const stock = Number(p?.stock||0)
             const enabled = p?.habilitado !== false
             const available = p?.disponible !== false
-            return stock > 0 && enabled && available
+            const catOk = !categoriaId || String(p?.categoria?.id||'')===String(categoriaId)
+            return stock > 0 && enabled && available && catOk
           })
           .map(p=>{
           const img=p.imagen||(p.imagenes&&p.imagenes[0]?.url)||'/vite.svg'
@@ -223,16 +242,7 @@ export default function Catalog(){
                         alert(String(e?.message||'No se pudo agregar'))
                       }
                     }}>Agregar</button>
-                    <button className="btn btn-primary" onClick={async()=>{
-                      const tok = getAuthToken()
-                      if(!tok){ alert('Debes iniciar sesión para comprar'); navigate('/login'); return }
-                      const el = document.getElementById(`qty-${p.id}`) as HTMLInputElement
-                      let q = Number(el?.value||1)
-                      if(!Number.isFinite(q) || q<1){ alert('Cantidad inválida'); return }
-                      q = Math.min(99, Math.floor(q))
-                      try{ addPendingItem(p.id, q); const r = await processPendingCheckout(); alert(`Compra registrada: ${r?.id??''}`); navigate('/carrito') }
-                      catch(e:any){ alert(String(e?.message||'No se pudo completar la compra')) }
-                    }}>Comprar</button>
+                    
                   </div>
                 </div>
               </div>

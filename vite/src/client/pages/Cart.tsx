@@ -15,13 +15,14 @@ export default function Cart(){
   const [pagoPaso,setPagoPaso]=useState<number>(0)
   const [procesando,setProcesando]=useState<boolean>(false)
   const [msg,setMsg]=useState<string>('')
+  const [confirm,setConfirm]=useState<{id?:number;numeroBoleta?:string|number;numeroSeguimiento?:string}|null>(null)
   useEffect(()=>{load()},[])
   async function load(){
     const r=await fetch('/api/carrito',{headers:{Accept:'application/json',...authHeaders()} as HeadersInit, credentials:'same-origin'})
     if(r.status===401){ setNeedsLogin(true); setData({items:[],total:0,cantidadItems:0}); return }
     const j=await r.json(); setData(j)
     try{
-      const map: Record<number, number> = {}
+      const map: Record<number, number> = {};
       (j?.items||[]).forEach((it: any)=>{ map[Number(it.productoId)] = Number(it.cantidad||0) })
       setDesired(map)
     }catch{}
@@ -60,11 +61,32 @@ export default function Cart(){
           </select>
         </div>
       </div>
-      {msg && (
+      {confirm ? (
+        <div className="mt-2">
+          <div className="card border-success shadow-sm">
+            <div className="card-body">
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <div className="d-flex flex-column gap-1">
+                  <div className="fw-semibold text-success">Compra registrada y pago aceptado</div>
+                  <div className="d-flex flex-wrap gap-2">
+                    <span className="badge bg-dark">Orden #{confirm.id ?? '-'}</span>
+                    <span className="badge bg-primary">Boleta N° {confirm.numeroBoleta ?? '-'}</span>
+                    <span className="badge bg-info text-dark">Seguimiento {confirm.numeroSeguimiento ?? '-'}</span>
+                  </div>
+                </div>
+                <div className="text-end">
+                  <span role="img" aria-label="check">✅</span>
+                </div>
+              </div>
+              <div className="text-muted">Gracias por tu compra. Puedes ver el detalle en Mis órdenes.</div>
+            </div>
+          </div>
+        </div>
+      ) : (msg && (
         <div className="mt-2">
           <div className="fw-semibold text-success">{msg}</div>
         </div>
-      )}
+      ))}
       {metodo && (
         <div className="alert alert-secondary">
           {metodo==='tarjeta' && <div>Ingresa datos de tu tarjeta en el paso de confirmación. Simulación segura, no se procesan pagos reales.</div>}
@@ -80,7 +102,7 @@ export default function Cart(){
           </ul>
           <button className="btn btn-primary btn-sm mt-2" onClick={async()=>{
             const tok = getAuthToken(); if(!tok){ alert('Debes iniciar sesión para comprar'); return }
-            try{ setMsg(''); const r = await processPendingCheckout(); setMsg(`Compra registrada y pago aceptado. Orden #${r?.id??''} · Boleta N° ${r?.numeroBoleta??'-'} · Seguimiento ${r?.numeroSeguimiento??'-'}`); setPending([]); await load() }
+            try{ setMsg(''); const r = await processPendingCheckout() as any; setConfirm({ id: r?.id, numeroBoleta: r?.numeroBoleta, numeroSeguimiento: r?.numeroSeguimiento }); setPending([]); await load() }
             catch(e:any){ alert(String(e?.message||'No se pudo completar la compra')) }
           }}>Procesar compra</button>
         </div>
@@ -159,7 +181,7 @@ export default function Cart(){
               setPagoPaso(3)
               setMsg('')
               const r = await checkoutWithItems({ metodoPago: metodo, canal }) as any
-              setMsg(`Compra registrada y pago aceptado. Orden #${r?.id??''} · Boleta N° ${r?.numeroBoleta??'-'} · Seguimiento ${r?.numeroSeguimiento??'-'}`)
+              setConfirm({ id: r?.id, numeroBoleta: r?.numeroBoleta, numeroSeguimiento: r?.numeroSeguimiento })
               setPagoPaso(0)
               await load()
             }catch(e:any){ alert(String(e?.message||'No se pudo completar la compra')) }

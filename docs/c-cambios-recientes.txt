@@ -1,0 +1,36 @@
+Titulo: Cambios Recientes
+Version: 1.0
+Fecha: 09/12/2025
+Proyecto: Fullstack-Eva-3
+
+Resumen de Cambios Implementados
+1) Boleta en Mis Órdenes
+- Se añadió `numeroBoleta` al DTO y al endpoint detallado.
+  DTO: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/dto/OrdenConDetalles.java:18
+  Endpoint: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:463-465
+- UI muestra "Boleta N°" en Mis Órdenes.
+  Frontend: vite/src/client/pages/MisOrdenes.tsx:106
+
+2) Catálogo del Cliente
+- Filtro por categoría con dropdown.
+  Dropdown: vite/src/client/pages/Catalog.tsx:127-132
+- Lógica de filtrado por `categoria.id`.
+  Filtro: vite/src/client/pages/Catalog.tsx:190-196
+- Removido botón "Comprar" manteniendo "Agregar" al carrito.
+  Frontend: vite/src/client/pages/Catalog.tsx:223-245
+
+3) Home: Mensajes Informativos
+- Botones "Zonas de despacho" y "Condiciones" muestran tarjetas informativas en la página.
+  Frontend: vite/src/client/pages/Home.tsx:88-98 y 100-132
+
+4) Admin: Editar Producto
+- Edición de categoría con selector y guardado en payload.
+  Payload: vite/src/pages/AdminProductEdit.jsx:85-92
+  Selector: vite/src/pages/AdminProductEdit.jsx:254-263
+- Corrección de compilación en JSX (remover `:any`).
+  Frontend: vite/src/pages/AdminProductEdit.jsx:258-261
+
+5) API Cliente: checkoutWithItems
+- `items` marcado opcional para compatibilidad con backend que usa carrito sin `items`.
+  Frontend: vite/src/client/api/client.ts:205-221
+

@@ -460,7 +460,8 @@ public class ControladorVentas {
                 String nombre = dv.getProducto() != null ? dv.getProducto().getNombre() : null;
                 items.add(new ItemOrdenDTO(nombre, dv.getCantidad(), dv.getPrecioUnitario(), dv.getSubtotal()));
             }
-            out.add(new OrdenConDetalles(v.getId(), v.getFecha(), v.getTotal(), v.getEstadoPago(), estadoEnvio, numeroSeguimiento, items));
+            Long numeroBoleta = repositorioBoleta.findByVentaId(v.getId()).map(Boleta::getNumero).orElse(null);
+            out.add(new OrdenConDetalles(v.getId(), v.getFecha(), v.getTotal(), v.getEstadoPago(), estadoEnvio, numeroSeguimiento, numeroBoleta, items));
         }
         return ResponseEntity.ok(out);
     }

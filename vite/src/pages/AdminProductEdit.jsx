@@ -18,6 +18,9 @@ export default function AdminProductEdit() {
   const [stock, setStock] = useState('')
   const [saving, setSaving] = useState(false)
   const [saveMessage, setSaveMessage] = useState('')
+  const [categories,setCategories] = useState([])
+  const [loadingCats,setLoadingCats] = useState(true)
+  const [categoriaId,setCategoriaId] = useState('')
 
   // Validaciones en tiempo real
   const nombreValido = useMemo(() => nombre.trim().length > 0, [nombre])
@@ -45,6 +48,7 @@ export default function AdminProductEdit() {
           setNombre(data?.nombre ?? '')
           setPrecio(data?.precio ?? '')
           setStock(data?.stock ?? '')
+          setCategoriaId(String(data?.categoria?.id ?? ''))
         }
       } catch (err) {
         if (!ignore) setError('No se pudo cargar el producto.')
@@ -56,6 +60,19 @@ export default function AdminProductEdit() {
     load()
     return () => { ignore = true }
   }, [id])
+
+  useEffect(()=>{
+    let ignore=false
+    const loadCats=async()=>{
+      try{
+        setLoadingCats(true)
+        const data = await api.get('/api/categorias')
+        if(!ignore) setCategories(Array.isArray(data)?data:[])
+      }catch(e){ console.warn('No se pudieron cargar categorías', e) }
+      finally{ if(!ignore) setLoadingCats(false) }
+    }
+    loadCats(); return ()=>{ignore=true}
+  },[])
 
   const handleImgError = (e) => { e.currentTarget.src = '/vite.svg' }
 
@@ -69,8 +86,7 @@ export default function AdminProductEdit() {
         nombre,
         precio: precio === '' ? null : Number(precio),
         stock: stock === '' ? null : Number(stock),
-        // Mantener categoría actual si existe
-        ...(product?.categoria?.id ? { categoria: { id: product.categoria.id } } : {}),
+        ...(categoriaId ? { categoria: { id: Number(categoriaId) } } : {}),
       }
       const updated = await api.put(`/api/productos/${id}`, payload)
       setProduct(updated)
@@ -236,7 +252,14 @@ export default function AdminProductEdit() {
                       </div>
                       <div className="col-md-6">
                         <label className="form-label">Categoría</label>
-                        <input type="text" className="form-control" value={product.categoria?.nombre ?? '-'} disabled />
+                        {loadingCats ? (
+                          <div className="form-control-plaintext">Cargando…</div>
+                        ) : (
+                          <select className="form-select" value={categoriaId} onChange={(e)=>setCategoriaId(e.target.value)} disabled={product?.habilitado === false}>
+                            <option value="">Selecciona…</option>
+                            {categories.map((c)=> (<option key={c.id} value={c.id}>{c.nombre}</option>))}
+                          </select>
+                        )}
                       </div>
                       <div className="col-md-4">
                         <label className="form-label">Precio</label>

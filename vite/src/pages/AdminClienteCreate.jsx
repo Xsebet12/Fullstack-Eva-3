@@ -75,15 +75,15 @@ export default function AdminClienteCreate() {
   const direccionValida = useMemo(() => direccion.trim().length > 0, [direccion])
   const telefonoValido = useMemo(() => {
     const t = (telefono || '').trim()
-    if (!t) return true
-    const re = /^[\d\s()+-]{7,15}$/
-    return re.test(t)
+    if (!t) return false
+    const normalized = t.replace(/\s+/g, '')
+    return /^\+\d{8,15}$/.test(normalized)
   }, [telefono])
   const nombresValidos = useMemo(() => nombres.trim().length > 0, [nombres])
   const apellidosValidos = useMemo(() => apellidos.trim().length > 0, [apellidos])
   const contrasenaValida = useMemo(() => contrasena.trim().length > 0, [contrasena])
   const comunaValida = useMemo(() => Boolean(comunaId), [comunaId])
-  const formValido = nombresValidos && apellidosValidos && rutValido && dvValido && rutDvMatch && emailValido && !emailTomado && !remoteEmailTaken && !rutTomado && !remoteRutTaken && contrasenaValida && direccionValida && comunaValida
+  const formValido = nombresValidos && apellidosValidos && rutValido && dvValido && rutDvMatch && emailValido && !emailTomado && !remoteEmailTaken && !rutTomado && !remoteRutTaken && contrasenaValida && direccionValida && comunaValida && telefonoValido
 
   useEffect(() => {
     let ignore = false
@@ -186,7 +186,7 @@ export default function AdminClienteCreate() {
     if (!contrasenaValida) return 'Contraseña es requerida'
     if (!direccionValida) return 'Dirección es requerida'
     if (!comunaValida) return 'Debe seleccionar una comuna'
-    if (telefono && !telefonoValido) return 'Teléfono con formato inválido'
+    if (!telefonoValido) return 'Teléfono requerido en formato internacional (+51 987654321)'
     return ''
   }
 
@@ -210,7 +210,7 @@ export default function AdminClienteCreate() {
         contrasena: contrasena.trim(),
         direccion: direccion.trim(),
         comunaId: Number(comunaId),
-        telefono: telefono ? telefono.trim() : undefined,
+        telefono: telefono.trim(),
         tipoCliente: tipoCliente || undefined,
         puntosFidelizacion: puntosFidelizacion ? Number(puntosFidelizacion) : undefined,
         recibirPromos,
@@ -321,9 +321,9 @@ export default function AdminClienteCreate() {
                     {emailValido && (emailTomado || remoteEmailTaken) && <div className="invalid-feedback d-block">Correo ya registrado.</div>}
                   </div>
                   <div className="col-md-6">
-                    <label className="form-label">Teléfono (opcional)</label>
-                    <input type="text" className={`form-control ${telefono ? (telefonoValido ? 'is-valid' : 'is-invalid') : ''}`} value={telefono} onChange={(e) => setTelefono(e.target.value)} />
-                    {!telefonoValido && telefono && <div className="invalid-feedback">Formato permitido: dígitos, espacios, +, -, ().</div>}
+                    <label className="form-label">Teléfono</label>
+                    <input type="text" className={`form-control ${telefono ? (telefonoValido ? 'is-valid' : 'is-invalid') : 'is-invalid'}`} value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder="+51 987654321" />
+                    {!telefonoValido && <div className="invalid-feedback">Formato internacional requerido, ej. +51 987654321.</div>}
                   </div>
                   <div className="col-md-6">
                     <label className="form-label">Dirección</label>

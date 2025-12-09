@@ -1,0 +1,34 @@
+Titulo: APIs e Integración
+Version: 1.0
+Fecha: 09/12/2025
+Proyecto: Fullstack-Eva-3
+
+Patrón de Integración
+- Frontend React (Vite) consume APIs REST con `fetch` y encabezados de autenticación.
+- El token JWT se obtiene de `localStorage`, `sessionStorage` o `cookie` y se aplica en `Authorization`.
+  Referencia: vite/src/client/api/client.ts:1-21, 22-26
+
+Autenticación y Autorización
+- Inicio/registro por endpoints dedicados. Seguridad con Spring Security y roles.
+- Endpoints admin protegidos con `@PreAuthorize('hasAnyRole('EMPLEADO','ADMIN')')`.
+  Referencia: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:470-471
+
+Flujos Principales
+- Catálogo: `GET /api/productos`, filtro por `q` en cliente.
+  cliente.ts: vite/src/client/api/client.ts:27-39
+- Carrito: `GET`/`add`/`remove`/`clear` cubren operaciones de usuario.
+  cliente.ts: vite/src/client/api/client.ts:85-137
+- Venta: `POST /api/ventas/ingresar` acepta modalidad directa (`items`) o por carrito (sin `items`).
+  ControladorVentas.java: 74-161 y 162-239
+
+Manejo de Errores y Mensajes
+- Estandarizar lectura de `message`/`error` en respuestas JSON.
+  Referencia: vite/src/client/api/client.ts (múltiples funciones de fetch)
+- Presentación no intrusiva: alertas Bootstrap y tarjetas informativas.
+  Ejemplos: vite/src/client/pages/Home.tsx:100-132, Catalog.tsx:134-142
+
+Modelo de Datos en Cliente
+- `OrdenResumen` y `OrdenConDetalles` mapeados a estructuras UI.
+- `Producto` con `categoria` opcional para filtrado.
+  Referencia: vite/src/client/pages/Catalog.tsx:17-17, 190-196
+

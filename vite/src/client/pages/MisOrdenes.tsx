@@ -102,14 +102,17 @@ export default function MisOrdenes(){
             <div className="card shadow-sm">
               <div className="card-body">
                   <div className="d-flex flex-wrap justify-content-between align-items-center mb-2">
-                    <div className="d-flex flex-column">
-                      <div className="fw-semibold">Orden #{o.id} · Boleta N° {o.numeroBoleta ?? '-'}</div>
+                    <div className="d-flex flex-column gap-1">
+                      <div className="d-flex align-items-center gap-2">
+                        <span className="badge bg-dark">Orden #{o.id}</span>
+                        <span className="badge bg-primary">Boleta N° {o.numeroBoleta ?? '-'}</span>
+                      </div>
                       <small className="text-muted">{o.fecha ? new Date(o.fecha).toLocaleString() : '-'}</small>
                     </div>
                     <div className="text-end">
-                      <div>Total: <span className="fw-semibold">{money(o.total)}</span></div>
+                      <div className="fs-6">Total: <span className="fw-semibold">{money(o.total)}</span></div>
                       <div className="mt-1">Pago <PagoBadge estado={o.estadoPago} /> · Envío <EnvioBadge estado={o.estadoEnvio} /></div>
-                      <div className="text-muted">Seguimiento: {o.numeroSeguimiento ?? '-'}</div>
+                      <div className="text-muted">🔗 Seguimiento: {o.numeroSeguimiento ?? '-'}</div>
                     </div>
                   </div>
                   <div className="table-responsive">

@@ -1,0 +1,93 @@
+Titulo: Documentación de APIs
+Version: 1.0
+Fecha: 09/12/2025
+Proyecto: Fullstack-Eva-3
+
+Resumen
+- Backend Spring Boot expone endpoints REST JSON para autenticación, productos, carrito y ventas.
+- Frontend React consume estos endpoints con encabezado `Authorization` cuando corresponde.
+
+Autenticación
+- POST /api/autenticacion/login
+  Descripción: Inicia sesión y retorna credenciales/token.
+  Cliente: vite/src/client/api/client.ts:44-47
+- POST /api/autenticacion/register
+  Descripción: Registra un usuario nuevo.
+  Cliente: vite/src/client/api/client.ts:48-76
+
+Usuarios
+- GET /api/usuarios/me
+  Descripción: Perfil del usuario autenticado.
+  Cliente: vite/src/client/api/client.ts:138-141
+
+Productos
+- GET /api/productos
+  Descripción: Lista productos. Soporta query `q` para búsqueda.
+  Cliente: vite/src/client/api/client.ts:27-39
+- GET /api/productos/{id}
+  Descripción: Obtiene detalle de producto.
+  Cliente: vite/src/client/api/client.ts:40-43
+- PUT /api/productos/{id} (Admin)
+  Descripción: Actualiza nombre, precio, stock y categoría.
+  Frontend: vite/src/pages/AdminProductEdit.jsx:80-103
+- POST /api/productos/{id}/image (Admin)
+  Descripción: Cambia imagen principal.
+  Frontend: vite/src/pages/AdminProductEdit.jsx:105-129
+- POST /api/productos/{id}/images (Admin)
+  Descripción: Agrega imágenes al producto.
+  Frontend: vite/src/pages/AdminProductEdit.jsx:131-151
+- PATCH /api/productos/{id}/imagen-principal (Admin)
+  Descripción: Marca una imagen como principal.
+  Frontend: vite/src/pages/AdminProductEdit.jsx:155-168
+- DELETE /api/productos/{id}/images/{imageId} (Admin)
+  Descripción: Elimina imagen.
+  Frontend: vite/src/pages/AdminProductEdit.jsx:170-185
+
+Carrito
+- GET /api/carrito
+  Descripción: Obtiene el estado actual del carrito.
+  Frontend: vite/src/client/pages/Cart.tsx:21
+- POST /api/carrito/add
+  Descripción: Agrega cantidad de un producto.
+  Cliente: vite/src/client/api/client.ts:85-104
+- POST /api/carrito/remove
+  Descripción: Quita cantidad de un producto.
+  Cliente: vite/src/client/api/client.ts:106-122
+- DELETE /api/carrito/clear
+  Descripción: Vacía el carrito.
+  Cliente: vite/src/client/api/client.ts:124-137
+
+Ventas (Cliente)
+- POST /api/ventas/ingresar
+  Descripción: Ingresa una venta. Acepta `items` explícitos o toma los del carrito del usuario.
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:74-161 y 162-239
+  Cliente: vite/src/client/api/client.ts:188-203 (checkout) y 205-221 (checkoutWithItems)
+- GET /api/ventas/mias
+  Descripción: Lista órdenes del usuario (resumen).
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:430-442
+- GET /api/ventas/mias/detalles
+  Descripción: Lista órdenes detalladas con envío, seguimiento y boleta.
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:444-466
+
+Ventas (Admin)
+- GET /api/ventas
+  Descripción: Lista todas las ventas con filtros `estadoPago`, `estadoEnvio`.
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:469-487
+- POST /api/ventas/{id}/aceptar
+  Descripción: Acepta venta y pasa envío a "preparando".
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:241-254
+- POST /api/ventas/{id}/rechazar
+  Descripción: Rechaza venta y revierte stock.
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:256-280
+- POST /api/ventas/{id}/despachado
+  Descripción: Marca envío como "despachado".
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:282-296
+- POST /api/ventas/{id}/entregado
+  Descripción: Marca envío como "entregado".
+  Backend: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/controller/ControladorVentas.java:298-... 
+
+DTOs Clave
+- OrdenResumen: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/dto/OrdenResumen.java:9-18
+- OrdenConDetalles: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/dto/OrdenConDetalles.java:12-19
+- ItemOrdenDTO: src/main/java/com/SebastianCornejo/Proyecto/Fullstack/dto/ItemOrdenDTO.java:8-14
+

@@ -10,10 +10,11 @@ import java.util.List;
 @AllArgsConstructor
 public class OrdenConDetalles {
     private Long id;
-    private Instant fecha;
-    private BigDecimal total;
+    private java.time.Instant fecha;
+    private java.math.BigDecimal total;
     private String estadoPago;
     private String estadoEnvio;
     private String numeroSeguimiento;
-    private List<ItemOrdenDTO> items;
+    private Long numeroBoleta;
+    private java.util.List<ItemOrdenDTO> items;
 }

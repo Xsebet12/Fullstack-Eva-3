@@ -1,0 +1,54 @@
+Titulo: Guia Técnica Frontend/Backend
+Version: 1.0
+Fecha: 09/12/2025
+Proyecto: Fullstack-Eva-3
+
+1. Creación de contenido web (HTML + CSS)
+- Uso de HTML5 semántico: `main`, `section`, `table`, `form`, `button`, `img`.
+- Estilos con Bootstrap y clases personalizadas para estética y responsividad.
+- Lazy loading de imágenes y utilidades de grid para diferentes tamaños.
+  Referencias: vite/src/client/pages/Home.tsx, MisOrdenes.tsx:116-135, Catalog.tsx:187-253
+
+2. Validación de formularios (JS)
+- Tipos y restricciones: `type="number"`, `min`, `step`.
+- Feedback visual `is-valid`/`is-invalid` y validación con `useMemo`.
+- Selects y labels asociados; autocompletar con listas pre-cargadas.
+  Referencias: vite/src/pages/AdminProductEdit.jsx:243-286, 254-263; Cart.tsx:51-61
+
+3. Operaciones en repositorio colaborativo
+- Flujo recomendado:
+  - `git checkout -b feature/<nombre>`
+  - `git add -A && git commit -m "<cambio>"`
+  - `git push origin feature/<nombre>` y Pull Request
+- Buenas prácticas: ramas por feature, mensajes claros, no subir secretos.
+
+4. Argumento para frontend JS responsivo
+- React + Vite: desarrollo rápido, HMR, bundling eficiente.
+- Bootstrap para responsividad, `IntersectionObserver` para efectos discretos respetando accesibilidad.
+  Referencia: vite/src/client/pages/Catalog.tsx:49-87
+
+5. Proceso de testeo Front-End (Vitest)
+- Pruebas unitarias de componentes, lógica de filtrado y validación.
+- Entorno `jsdom`, ejecución con `npm run test`.
+- Conceptos: aislamiento, cobertura, pruebas de interacción y mensajes.
+  Referencia: vite/package.json:6-11, 12-25
+
+6. Backend con framework y DB
+- Spring Boot 3.5.x con JPA, Web y Security.
+- MySQL para persistencia; H2 para pruebas locales.
+- Lógica de negocio: validación de stock, IVA, boleta y seguimiento.
+  Referencias: pom.xml:36-100, 57-60, 84-88; ControladorVentas.java:74-161, 162-239
+
+7. Integración REST: CRUD
+- Lectura: productos y ventas.
+- Creación: ventas.
+- Actualización: productos y estados de órdenes.
+- Eliminación: imágenes y productos.
+  Referencias: cliente.ts:27-39, 85-137; ControladorVentas.java:241-296, 298-...
+
+8. Acceso y seguridad del usuario
+- Autenticación por login/registro y token JWT.
+- Autorización por roles con restricción de endpoints admin.
+- Acceso a funcionalidades del usuario con manejo de 401.
+  Referencias: vite/src/client/api/client.ts:1-26; Cart.tsx:21-23; ControladorVentas.java:470-471
+

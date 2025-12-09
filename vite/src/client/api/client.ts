@@ -202,7 +202,7 @@ export async function checkout(){
   return r.json()
 }
 
-export async function checkoutWithItems(body:{metodoPago?:string; canal?:string; items:{productoId:number; cantidad:number}[]}){
+export async function checkoutWithItems(body:{metodoPago?:string; canal?:string; items?:{productoId:number; cantidad:number}[]}){
   const r = await fetch('/api/ventas/ingresar',{
     method:'POST',
     headers: buildHeaders({'Accept':'application/json','Content-Type':'application/json'}),
